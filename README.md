@@ -200,7 +200,7 @@ flowchart LR
 <div align="center">
 
 <img 
-src="https://capsule-render.vercel.app/api?type=slice&color=0:0F172A,100:6366F1&height=170&section=header&text=Full-Stack%20%2B%20AI%20Builder%20⚡&fontSize=34&fontColor=ffffff&animation=twinkling&desc=Clean%20Code%20%7C%20Modern%20UI%20%7C%20Scalable%20Apps&descAlignY=72" 
+src="https://capsule-render.vercel.app/api?type=venom&height=170&text=Modern%20Web%20Experiences%20✨&fontSize=34&fontColor=ffffff&colorA=6366F1&colorB=8B5CF6&animation=fadeIn&desc=Open%20Source%20%2B%20AI%20%2B%20Full-Stack&descAlignY=72" 
 width="100%"/>
 
 </div>
