@@ -35,15 +35,15 @@
 
 ```javascript
 const DIGVIJAY = {
-    location:     "📍 Bhubaneswar, Odisha, India 🇮🇳",
-    role:         "💻 Full-Stack Developer",
-    currentFocus: ["⚛️ React.js", "▲ Next.js", "🟢 Node.js", "🤖 AI Integration"],
-    passion:      "🎨 Building modern, animated & responsive web applications",
-    mission:      "🚀 Bridge AI × Web Development — build products that matter",
-    mindset:      "🧠 Always curious about new frameworks & technologies",
-    superpower:   "✨ Turning coffee into pixel-perfect interfaces",
-    philosophy:   "Great design + Clean code = Magic 💫",
-    openTo:       ["🤝 Collaborations", "💼 Freelance", "🌱 Open Source"],
+    LOCATION:     "📍 Bhubaneswar, Odisha, India 🇮🇳",
+    ROLE:         "💻 Full-Stack Developer",
+    CURRENTFOCUS: ["⚛️ React.js", "▲ Next.js", "🟢 Node.js", "🤖 AI Integration"],
+    PASSION:      "🎨 Building modern, animated & responsive web applications",
+    MISSION:      "🚀 Bridge AI × Web Development — build products that matter",
+    MINDSET:      "🧠 Always curious about new frameworks & technologies",
+    SUPERPOWER:   "✨ Turning TEA into perfect interfaces",
+    PJILOSOPHY:   "Great design + Clean code = Magic 💫",
+    OPENTO:       ["🤝 Collaborations", "💼 Freelance", "🌱 Open Source"],
 };
 ```
 ## 🛠️ Tech Stack
@@ -93,7 +93,7 @@ const DIGVIJAY = {
 
 ---
 
-# 🚀 Featured Projects
+<!-- # 🚀 Featured Projects
 
 <div align="center">
 
@@ -167,7 +167,7 @@ const DIGVIJAY = {
 
 <!-- <a href="https://github.com/DIGVIJAY-TRIPATHY" target="_blank">
   <img src="https://img.shields.io/badge/📂_Source_Code-181717?style=for-the-badge&logo=github"/>
-</a> -->
+</a>
 
 <img src="https://img.shields.io/badge/🚀_Live_Soon-000?style=for-the-badge"/>
 
@@ -176,8 +176,8 @@ const DIGVIJAY = {
 </table>
 
 </div>
-
 ---
+ -->
 
 # ⚡ Project Vision
 
@@ -202,11 +202,6 @@ flowchart LR
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=20&pause=1000&color=6366F1&center=true&vCenter=true&width=600&lines=Building+awesome+projects+every+day+🚀;Open+Source+%2B+AI+%2B+Modern+Web+✨;Creating+beautiful+developer+experiences+💻" />
 
 </div>
-
----
-
-
-
 ---
 
 ## 📊 GitHub Analytics
@@ -230,20 +225,7 @@ flowchart LR
 
 ---
 
-## 💡 Philosophy
-
-> *"In the era of AI, code is no longer just written — it's co-created. The future belongs to developers who think beyond syntax, design with empathy, and build with intelligence."*
-
-> *"Great UI makes code feel alive. Great code makes UI feel effortless."*
-
----
-
-## 🤝 Let's Connect & Collaborate!
-
 <div align="center">
-
-**Open to collaborations, freelance opportunities, and interesting projects!**
-
 <a href="mailto:tripathydigvijay7377@gmail.com">
   <img src="https://img.shields.io/badge/Email_Me-tripathydigvijay7377@gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/>
 </a>
