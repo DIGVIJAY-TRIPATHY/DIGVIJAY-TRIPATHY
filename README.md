@@ -199,7 +199,9 @@ flowchart LR
 
 <div align="center">
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=20&pause=1000&color=6366F1&center=true&vCenter=true&width=600&lines=Building+awesome+projects+every+day+🚀;Open+Source+%2B+AI+%2B+Modern+Web+✨;Creating+beautiful+developer+experiences+💻" />
+<img 
+src="https://capsule-render.vercel.app/api?type=blur&height=160&color=gradient&text=Turning%20Ideas%20Into%20Reality%20💡&fontSize=32&fontColor=ffffff&animation=twinkling&desc=Full-Stack%20Developer%20%7C%20Creative%20Coder%20🚀&descSize=18&descAlignY=72" 
+width="100%"/>
 
 </div>
 ---
