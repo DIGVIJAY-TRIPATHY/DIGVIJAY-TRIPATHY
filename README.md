@@ -176,7 +176,7 @@ const DIGVIJAY = {
 </table>
 
 </div>
----
+<!-- --- -->
  -->
 
 # ⚡ Project Vision
@@ -193,7 +193,7 @@ flowchart LR
 
 </div>
 
-
+---
 
 # 🌟 More Projects Coming Soon...
 
