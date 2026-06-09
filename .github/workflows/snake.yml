@@ -241,9 +241,7 @@ jobs:
           fi
 
       - name: Slack notification (optional)
-        if: >
-          github.event.inputs.notify_slack == 'true' &&
-          secrets.SLACK_WEBHOOK_URL != ''
+        if: github.event.inputs.notify_slack == 'true'
         uses: slackapi/slack-github-action@v1.26.0
         with:
           payload: |
