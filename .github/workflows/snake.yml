@@ -1,0 +1,264 @@
+name: 🐍 GitHub Snake — God Tier
+
+on:
+  schedule:
+    - cron: "0 0 * * *"   # daily at midnight UTC
+  workflow_dispatch:
+    inputs:
+      force_regenerate:
+        description: "Force regeneration even if no new contributions"
+        required: false
+        default: "false"
+        type: boolean
+      notify_slack:
+        description: "Send Slack notification on completion"
+        required: false
+        default: "false"
+        type: boolean
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: snake-${{ github.ref }}
+  cancel-in-progress: true   # never let two runs stomp each other
+
+permissions:
+  contents: write
+
+env:
+  DIST_DIR: dist
+  OUTPUT_BRANCH: output
+  CACHE_KEY_PREFIX: snake-cache-v1
+
+jobs:
+  # ──────────────────────────────────────────────
+  # JOB 1 — check if regeneration is even needed
+  # ──────────────────────────────────────────────
+  preflight:
+    name: 🔍 Preflight Check
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.check.outputs.should_run }}
+      last_commit_sha: ${{ steps.check.outputs.last_commit_sha }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check if regeneration needed
+        id: check
+        run: |
+          FORCE="${{ github.event.inputs.force_regenerate }}"
+          EVENT="${{ github.event_name }}"
+
+          if [[ "$FORCE" == "true" || "$EVENT" == "workflow_dispatch" || "$EVENT" == "push" ]]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          else
+            # On schedule: only regenerate if there were commits today
+            COMMITS_TODAY=$(git log --oneline --since="24 hours ago" | wc -l)
+            if [[ "$COMMITS_TODAY" -gt 0 ]]; then
+              echo "should_run=true" >> "$GITHUB_OUTPUT"
+              echo "✅ $COMMITS_TODAY new commit(s) today — regenerating."
+            else
+              echo "should_run=false" >> "$GITHUB_OUTPUT"
+              echo "⏭️  No new commits today — skipping regeneration."
+            fi
+          fi
+
+          echo "last_commit_sha=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+  # ──────────────────────────────────────────────
+  # JOB 2 — generate all snake variants
+  # ──────────────────────────────────────────────
+  generate:
+    name: 🎨 Generate Snake Animations
+    needs: preflight
+    if: needs.preflight.outputs.should_run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - variant: light
+            label: "Light theme"
+          - variant: dark
+            label: "Dark theme"
+          - variant: ocean
+            label: "Ocean GIF"
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Cache previous dist
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.DIST_DIR }}
+          key: ${{ env.CACHE_KEY_PREFIX }}-${{ needs.preflight.outputs.last_commit_sha }}
+          restore-keys: |
+            ${{ env.CACHE_KEY_PREFIX }}-
+
+      - name: Generate — ${{ matrix.label }}
+        id: generate
+        uses: Platane/snk@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            ${{ matrix.variant == 'light'  && format('{0}/github-snake.svg', env.DIST_DIR) || '' }}
+            ${{ matrix.variant == 'dark'   && format('{0}/github-snake-dark.svg?palette=github-dark', env.DIST_DIR) || '' }}
+            ${{ matrix.variant == 'ocean'  && format('{0}/ocean.gif?color_snake=orange&color_dots=#bfd6f6,#8dbdff,#64a1f4,#4b91f1,#3c7dd9', env.DIST_DIR) || '' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify output exists
+        run: |
+          echo "📂 Contents of $DIST_DIR:"
+          ls -lh "$DIST_DIR" || echo "(empty)"
+          VARIANT="${{ matrix.variant }}"
+          case "$VARIANT" in
+            light) FILE="$DIST_DIR/github-snake.svg" ;;
+            dark)  FILE="$DIST_DIR/github-snake-dark.svg" ;;
+            ocean) FILE="$DIST_DIR/ocean.gif" ;;
+          esac
+          if [[ ! -f "$FILE" ]]; then
+            echo "❌ Expected output not found: $FILE"
+            exit 1
+          fi
+          SIZE=$(du -sh "$FILE" | cut -f1)
+          echo "✅ $FILE ($SIZE)"
+
+      - name: Upload artifact — ${{ matrix.variant }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: snake-${{ matrix.variant }}
+          path: ${{ env.DIST_DIR }}
+          retention-days: 7
+          if-no-files-found: error
+
+  # ──────────────────────────────────────────────
+  # JOB 3 — merge all variants and deploy
+  # ──────────────────────────────────────────────
+  deploy:
+    name: 🚀 Deploy to Output Branch
+    needs: [preflight, generate]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Download all snake artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: snake-*
+          path: ${{ env.DIST_DIR }}
+          merge-multiple: true
+
+      - name: Show merged dist contents
+        run: |
+          echo "📦 Final dist:"
+          ls -lh "$DIST_DIR"
+
+      - name: Generate README for output branch
+        run: |
+          SHA="${{ needs.preflight.outputs.last_commit_sha }}"
+          DATE=$(date -u +"%Y-%m-%d %H:%M UTC")
+          cat > "$DIST_DIR/README.md" << EOF
+          # 🐍 Snake Animations
+
+          Auto-generated from [${{ github.repository }}](https://github.com/${{ github.repository }})
+          Last updated: **$DATE** (commit \`$SHA\`)
+
+          | Variant | Preview |
+          |---------|---------|
+          | Light | ![Light](./github-snake.svg) |
+          | Dark | ![Dark](./github-snake-dark.svg) |
+          | Ocean | ![Ocean](./ocean.gif) |
+
+          ## Usage
+
+          \`\`\`markdown
+          <!-- Light -->
+          ![Snake](https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/output/github-snake.svg)
+
+          <!-- Dark (use with GitHub's picture element) -->
+          <picture>
+            <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/output/github-snake-dark.svg" />
+            <img src="https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/output/github-snake.svg" />
+          </picture>
+          \`\`\`
+          EOF
+
+      - name: Deploy to output branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./${{ env.DIST_DIR }}
+          publish_branch: ${{ env.OUTPUT_BRANCH }}
+          commit_message: "chore: update snake animation [skip ci] @ ${{ needs.preflight.outputs.last_commit_sha }}"
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
+          keep_files: false
+
+  # ──────────────────────────────────────────────
+  # JOB 4 — summary + optional Slack notification
+  # ──────────────────────────────────────────────
+  notify:
+    name: 📣 Summary & Notify
+    needs: [preflight, generate, deploy]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Write job summary
+        run: |
+          PREFLIGHT="${{ needs.preflight.result }}"
+          GENERATE="${{ needs.generate.result }}"
+          DEPLOY="${{ needs.deploy.result }}"
+          SKIPPED="${{ needs.preflight.outputs.should_run }}"
+          SHA="${{ needs.preflight.outputs.last_commit_sha }}"
+          DATE=$(date -u +"%Y-%m-%d %H:%M UTC")
+
+          echo "## 🐍 Snake Animation Run — $DATE" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Job | Status |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----|--------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Preflight | $PREFLIGHT |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Generate  | $GENERATE |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Deploy    | $DEPLOY |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          if [[ "$SKIPPED" == "false" ]]; then
+            echo "⏭️ Skipped — no new contributions detected today." >> "$GITHUB_STEP_SUMMARY"
+          elif [[ "$DEPLOY" == "success" ]]; then
+            echo "✅ All variants deployed to the \`output\` branch." >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "**Commit:** \`$SHA\`" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "❌ One or more jobs failed. Check the logs above." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Slack notification (optional)
+        if: >
+          github.event.inputs.notify_slack == 'true' &&
+          secrets.SLACK_WEBHOOK_URL != ''
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+              "text": "${{ needs.deploy.result == 'success' && '✅' || '❌' }} Snake animation ${{ needs.deploy.result }} for *${{ github.repository }}*",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*${{ needs.deploy.result == 'success' && '✅' || '❌' }} GitHub Snake — ${{ needs.deploy.result }}*\nRepo: `${{ github.repository }}` | Commit: `${{ needs.preflight.outputs.last_commit_sha }}`"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
