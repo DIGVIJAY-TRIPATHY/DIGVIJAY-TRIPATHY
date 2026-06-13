@@ -5,11 +5,6 @@ on:
     - cron: "0 0 * * *"   # daily at midnight UTC
   workflow_dispatch:
     inputs:
-      force_regenerate:
-        description: "Force regeneration even if no new contributions"
-        required: false
-        default: "false"
-        type: boolean
       notify_slack:
         description: "Send Slack notification on completion"
         required: false
@@ -50,23 +45,8 @@ jobs:
       - name: Check if regeneration needed
         id: check
         run: |
-          FORCE="${{ github.event.inputs.force_regenerate }}"
-          EVENT="${{ github.event_name }}"
-
-          if [[ "$FORCE" == "true" || "$EVENT" == "workflow_dispatch" || "$EVENT" == "push" ]]; then
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
-          else
-            # On schedule: only regenerate if there were commits today
-            COMMITS_TODAY=$(git log --oneline --since="24 hours ago" | wc -l)
-            if [[ "$COMMITS_TODAY" -gt 0 ]]; then
-              echo "should_run=true" >> "$GITHUB_OUTPUT"
-              echo "✅ $COMMITS_TODAY new commit(s) today — regenerating."
-            else
-              echo "should_run=false" >> "$GITHUB_OUTPUT"
-              echo "⏭️  No new commits today — skipping regeneration."
-            fi
-          fi
-
+          echo "should_run=true" >> "$GITHUB_OUTPUT"
+          echo "✅ Always regenerating on every run."
           echo "last_commit_sha=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
 
   # ──────────────────────────────────────────────
