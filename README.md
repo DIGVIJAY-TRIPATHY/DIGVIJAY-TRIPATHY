@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=200&section=header&text=DIGVIJAY%20TRIPATHY&fontSize=50&fontColor=fff&animation=twinkling&fontAlignY=38&desc=Full-Stack%20Developer%20%7C%20AI%20%2B%20Web%20Builder&descAlignY=60&descSize=18" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=200&section=header&text=DIGVIJAY%20TRIPATHY&fontSize=50&fontColor=fff&animation=twinkling&fontAlignY=38&desc=Backend-Leaning%20Full-Stack%20Developer%20%7C%20APIs%20%2B%20Systems%20%2B%20AI&descAlignY=60&descSize=18" width="100%"/>
 
 <p align="center">
   <a href="https://dig-github.netlify.app/">
@@ -11,7 +11,7 @@
   </a>
 </p>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=2800&pause=800&color=6366F1&center=true&vCenter=true&width=700&lines=Full-Stack+Developer+%F0%9F%9A%80;Building+Modern+Web+Apps+%E2%9C%A8;AI+%2B+Web+Integration+%F0%9F%A4%96;React+%7C+Next.js+%7C+Node.js;Turning+Ideas+into+Scalable+Products+%F0%9F%92%AB;Great+Design+%2B+Clean+Code+%3D+Magic+%E2%9C%A8" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=2800&pause=800&color=6366F1&center=true&vCenter=true&width=750&lines=Backend-Leaning+Full-Stack+Developer+%F0%9F%9A%80;Designing+APIs+%26+Data+Models+%F0%9F%A7%B1;Node.js+%7C+Express+%7C+MongoDB+%7C+SQL;Auth%2C+Security+%26+Scalable+Systems+%F0%9F%94%90;AI+%2B+Backend+Integration+%F0%9F%A4%96;Clean+Code+%2B+Solid+Architecture+%3D+Magic+%E2%9C%A8" alt="Typing SVG" />
 
 <br/>
 
@@ -45,18 +45,19 @@
 ```javascript
 const DIGVIJAY = {
     LOCATION: "📍 Bhubaneswar, Odisha, India 🇮🇳",
-    ROLE: "💻 Full-Stack Developer",
-    CURRENTFOCUS: [
-        "⚛️ React.js",
-        "▲ Next.js",
-        "🟢 Node.js",
-        "🤖 AI Integration",
+    ROLE: "🛠️ Backend-Leaning Full-Stack Developer",
+    CORE_STRENGTH: [
+        "🟢 Node.js & Express — REST API design",
+        "🗄️ Database modeling (MongoDB, MySQL, PostgreSQL)",
+        "🔐 Auth & security (JWT, OAuth, bcrypt, RBAC)",
+        "🧩 System design & scalable architecture",
     ],
-    PASSION: "🎨 Building modern, animated & responsive web applications",
-    MISSION: "🚀 Bridge AI × Web Development — build products that matter",
-    MINDSET: "🧠 Always curious about new frameworks & technologies",
-    SUPERPOWER: "✨ Turning TEA into perfect interfaces",
-    PJILOSOPHY: "Great design + Clean code = Magic 💫",
+    ALSO_COMFORTABLE_WITH: ["⚛️ React.js", "▲ Next.js", "🤖 AI/LLM integration"],
+    PASSION: "⚙️ Designing clean APIs and data models that scale",
+    MISSION: "🚀 Bridge Backend Engineering × AI — build products that hold up under load",
+    MINDSET: "🧠 Think in schemas, endpoints, and edge cases first",
+    SUPERPOWER: "✨ Turning messy requirements into solid backend architecture",
+    PHILOSOPHY: "Solid architecture + Clean code = Magic 💫",
     OPENTO: ["🤝 Collaborations", "💼 Freelance", "🌱 Open Source"],
 };
 ```
@@ -67,44 +68,38 @@ const DIGVIJAY = {
 
 ```mermaid
 mindmap
-  root((💻 Developer))
+  root((🛠️ Developer))
 
-    ⚛️ Frontend
-      HTML5
-      CSS3
-      JavaScript
-      TypeScript
-      React
-      Next.js
-      Tailwind CSS
-      three.js
-
-    🟢 Backend
+    🟢 Backend Core
       Node.js
       Express.js
+      REST API Design
+      Auth
+        jsonwebtoken
+        bcrypt
+      Middleware & MVC
 
-    🗄️ Database
+    🗄️ Data Layer
       MongoDB
-      MySQL
-      PostgreSQL
+      MySQL-basics
+      Schema Design
 
-    🎨 Animation & Design
-      Framer Motion
-      GSAP
-      Figma
-
-    🤖 AI & Emerging Tech
-      Python
-      OpenAI
-      GraphQL
-      Docker
-
-    🔧 Tools & DevOps
-      VS Code
-      Git
-      GitHub
+    🧩 Architecture & DevOps
+      System Design Basics
+      Git / GitHub
       Postman
       Vercel
+
+    ☁️ Media & Storage
+      Cloudinary
+      multer
+
+    ⚛️ Frontend
+      React
+      Next.js
+      TypeScript
+      Tailwind CSS
+      Framer Motion / GSAP
 ```
 
 <!-- # 🚀 Featured Projects
@@ -193,23 +188,8 @@ mindmap
 ---
  -->
 
-# ⚡ Project Vision
-
-<div align="center">
-
-```mermaid id="6xwtpk"
-flowchart LR
-    A[💡 Ideas] --> B[🎨 UI/UX]
-    B --> C[⚙️ Full Stack]
-    C --> D[🤖 AI Integration]
-    D --> E[🚀 Scalable Product]
-```
-
-</div>
 
 ---
-
-# 🌟 More Projects Coming Soon...
 
 <div align="center">
 
@@ -226,7 +206,9 @@ width="100%"/>
 </div>
 
 <div align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=DIGVIJAY-TRIPATHY&theme=react-dark&hide_border=true&area=true" alt="Activity Graph"/>
+  <!-- <img src="https://github-readme-activity-graph.vercel.app/graph?username=DIGVIJAY-TRIPATHY&theme=react-dark&hide_border=true&area=true" alt="Activity Graph"/> -->
+
+   <img src="https://fabianocouto-activity-graph.vercel.app/graph?username=DIGVIJAY-TRIPATHY&theme=react-dark&hide_border=true&area=true" alt="Activity Graph"/>
 </div>
 
 ---
