@@ -230,7 +230,7 @@ width="100%"/>
   <img src="https://img.shields.io/badge/Visit_Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio"/>
 </a>
 &nbsp;
-<a href="https://www.linkedin.com/in/santosh-kumar-dash-417a30274/" target="_blank">
+<a href="https://www.linkedin.com/in/digvijay-tripathy-194aa8314/" target="_blank">
   <img src="https://img.shields.io/badge/Connect_on_LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
 </a>
 
