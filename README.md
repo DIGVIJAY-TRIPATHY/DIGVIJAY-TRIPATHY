@@ -50,7 +50,6 @@ const DIGVIJAY = {
         "🟢 Node.js & Express — REST API design",
         "🗄️ Database modeling (MongoDB, MySQL, PostgreSQL)",
         "🔐 Auth & security (JWT, OAuth, bcrypt, RBAC)",
-        "🧩 System design & scalable architecture",
     ],
     ALSO_COMFORTABLE_WITH: ["⚛️ React.js", "▲ Next.js", "🤖 AI/LLM integration"],
     PASSION: "⚙️ Designing clean APIs and data models that scale",
